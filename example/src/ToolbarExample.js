@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { View, Platform, StyleSheet } from 'react-native';
 import {
+  Button,
   Colors,
   Switch,
   Paragraph,
@@ -24,6 +25,7 @@ const initialParams = {
   showSubtitle: true,
   showSearchIcon: true,
   showMoreIcon: true,
+  showTitlesAsComponents: false,
 };
 
 const MORE_ICON = Platform.OS === 'ios' ? 'more-horiz' : 'more-vert';
@@ -39,10 +41,18 @@ class ToolbarExample extends React.Component<Props> {
           {params.showLeftIcon && (
             <ToolbarBackAction onPress={() => navigation.goBack()} />
           )}
-          <ToolbarContent
-            title="Title"
-            subtitle={params.showSubtitle ? 'Subtitle' : null}
-          />
+          {params.showTitlesAsComponents && (
+            <ToolbarContent
+              title={<Button>Title</Button>}
+              subtitle={params.showSubtitle ? <Button>Subtitle</Button> : null}
+            />
+          )}
+          {!params.showTitlesAsComponents && (
+            <ToolbarContent
+              title="Title"
+              subtitle={params.showSubtitle ? 'Subtitle' : null}
+            />
+          )}
           {params.showSearchIcon && (
             <ToolbarAction icon="search" onPress={() => {}} />
           )}
@@ -107,6 +117,17 @@ class ToolbarExample extends React.Component<Props> {
             onValueChange={value =>
               navigation.setParams({
                 showMoreIcon: value,
+              })
+            }
+          />
+        </View>
+        <View style={styles.row}>
+          <Paragraph>Titles as Components</Paragraph>
+          <Switch
+            value={params.showTitlesAsComponents}
+            onValueChange={value =>
+              navigation.setParams({
+                showTitlesAsComponents: value,
               })
             }
           />

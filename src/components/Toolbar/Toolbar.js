@@ -23,7 +23,7 @@ type Props = {
    */
   statusBarHeight?: number,
   /** On iOS title already centered, on android it is not. Set this to force both platforms centered or not centered */
-  centerTitle?: boolean
+  centerTitle?: boolean,
   /**
    * Content of the `Toolbar`.
    */
