@@ -61,8 +61,14 @@ class ToolbarContent extends React.Component<Props> {
       .rgb()
       .string();
 
-    return (
-      <View style={[styles.container, style]}>
+    if (typeof title !== 'string') {
+      return <View style={[styles.container, style]}>{title}</View>;
+    }
+
+    const titleComponent =
+      typeof title !== 'string' ? (
+        { title }
+      ) : (
         <Text
           style={[
             { color: titleColor, fontFamily: fonts.medium },
@@ -73,14 +79,24 @@ class ToolbarContent extends React.Component<Props> {
         >
           {title}
         </Text>
-        {subtitle && (
-          <Text
-            style={[styles.subtitle, { color: subtitleColor }, subtitleStyle]}
-            numberOfLines={1}
-          >
-            {subtitle}
-          </Text>
-        )}
+      );
+
+    const subTitleComponent =
+      typeof subtitle !== 'string' ? (
+        { subtitle }
+      ) : (
+        <Text
+          style={[styles.subtitle, { color: subtitleColor }, subtitleStyle]}
+          numberOfLines={1}
+        >
+          {subtitle}
+        </Text>
+      );
+
+    return (
+      <View style={[styles.container, style]}>
+        {titleComponent}
+        {subtitle && subTitleComponent}
       </View>
     );
   }
