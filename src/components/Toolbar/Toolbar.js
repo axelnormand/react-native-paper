@@ -22,6 +22,8 @@ type Props = {
    * Pass `0` or a custom value to disable the default behaviour.
    */
   statusBarHeight?: number,
+  /** On iOS title already centered, on android it is not. Set this to force both platforms centered or not centered */
+  centerTitle?: boolean
   /**
    * Content of the `Toolbar`.
    */
@@ -91,6 +93,7 @@ class Toolbar extends React.Component<Props> {
       dark,
       style,
       theme,
+      centerTitle,
       ...rest
     } = this.props;
 
@@ -131,16 +134,18 @@ class Toolbar extends React.Component<Props> {
       });
     }
 
-    const centerIos =
-      Platform.OS === 'ios' && (leftActions < 2 && rightActions < 2);
+    const shouldCenter = (Platform.OS === 'ios' || centerTitle) 
+      && centerTitle !== false
+      && (leftActions < 2 && rightActions < 2);
 
-    if (centerIos && leftActions === 0) {
+
+    if (shouldCenter && leftActions === 0) {
       childrenArray.unshift(
         <View key="left-empty-icon" style={styles.emptyIcon} />
       );
     }
 
-    if (centerIos && rightActions === 0) {
+    if (shouldCenter && rightActions === 0) {
       childrenArray.push(
         <View key="right-empty-icon" style={styles.emptyIcon} />
       );
@@ -173,7 +178,7 @@ class Toolbar extends React.Component<Props> {
               // Extra margin between left icon and ToolbarContent
               props.style = [
                 { marginHorizontal: i === 0 ? 0 : 8 },
-                centerIos && { alignItems: 'center' },
+                shouldCenter && { alignItems: 'center' },
                 child.props.style,
               ];
             }
