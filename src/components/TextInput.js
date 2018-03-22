@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 0,
     marginTop: 8,
-    marginBottom: -4,
+    marginBottom: -3, // was -4, this fixes underline not showing in some cases
   },
   multiline: {
     paddingTop: 30,
